@@ -6,6 +6,11 @@
   "use strict";
 
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement;
+
+  function isLight() {
+    return root.dataset.theme === "light";
+  }
 
   /* ---- Plasma color cycling on the ASCII banner ------------- */
 
@@ -36,7 +41,8 @@
             Math.sin(c.y * 0.45 + t * 1.7) +
             Math.sin((c.x + c.y) * 0.12 + t * 2.6);
           var hue = 100 + v * 55; /* sweeps green -> cyan -> magenta-ish */
-          c.el.style.color = "hsl(" + hue + ", 100%, " + (55 + v * 8) + "%)";
+          var lum = isLight() ? 34 + v * 5 : 55 + v * 8;
+          c.el.style.color = "hsl(" + hue + ", 100%, " + lum + "%)";
         }
         requestAnimationFrame(plasma);
       })(t0);
@@ -84,17 +90,38 @@
         var y = Math.sin(x * 0.035 + t * 3) * 9;
         var hue = 100 + Math.sin(x * 0.02 + t * 2) * 60;
         glyphs[i].style.transform = "translate(" + x + "px," + y + "px)";
-        glyphs[i].style.color = "hsl(" + hue + ",100%,60%)";
+        glyphs[i].style.color = "hsl(" + hue + ",100%," + (isLight() ? 34 : 60) + "%)";
       }
       requestAnimationFrame(scroll);
     })(st0);
   }
+
+  /* ---- Theme toggle (dark phosphor <-> paper terminal) --------- */
+
+  var tbtn = document.createElement("button");
+  tbtn.id = "themetoggle";
+  tbtn.title = "toggle theme [t]";
+  document.body.appendChild(tbtn);
+
+  function paintThemeBtn() {
+    tbtn.textContent = isLight() ? "[ ☾ dark ]" : "[ ☼ lite ]";
+  }
+  paintThemeBtn();
+
+  function toggleTheme() {
+    root.dataset.theme = isLight() ? "dark" : "light";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) { /* private mode */ }
+    paintThemeBtn();
+  }
+
+  tbtn.addEventListener("click", toggleTheme);
 
   /* ---- Keyboard nav: press the [key] shown in the menu -------- */
 
   document.addEventListener("keydown", function (e) {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
     if (e.ctrlKey || e.altKey || e.metaKey) return;
+    if (e.key === "t") { toggleTheme(); return; }
     var link = document.querySelector('nav.mainmenu a[data-key="' + e.key + '"]');
     if (link) window.location.href = link.getAttribute("href");
   });

@@ -10,6 +10,31 @@
   --accent: #ff3fd8;
   --accent2: #3fd8ff;
   --warn: #ffd83f;
+  --glow: 0 0 6px rgba(51, 255, 102, 0.35);
+  --glow-banner: 0 0 8px currentColor;
+  --scanline: rgba(0, 0, 0, 0.22);
+  --vignette: rgba(0, 0, 0, 0.5);
+  --bar-bg: #000;
+  --code-bg: #000;
+  --warn-bg: rgba(255, 216, 63, 0.07);
+}
+
+/* light theme: dark phosphor on paper, dot-matrix printout vibes */
+:root[data-theme="light"] {
+  --bg: #ece7d6;
+  --fg: #14582a;
+  --fg-dim: #55755f;
+  --fg-dark: #a3b3a0;
+  --accent: #ad1287;
+  --accent2: #0b6f8f;
+  --warn: #7d6100;
+  --glow: none;
+  --glow-banner: none;
+  --scanline: rgba(0, 0, 0, 0.05);
+  --vignette: rgba(60, 50, 20, 0.14);
+  --bar-bg: #ddd6c2;
+  --code-bg: #f5f1e4;
+  --warn-bg: rgba(125, 97, 0, 0.09);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,7 +49,7 @@ body {
   line-height: 1.45;
   min-height: 100vh;
   padding-bottom: 4rem; /* room for the scroller bar */
-  text-shadow: 0 0 6px rgba(51, 255, 102, 0.35);
+  text-shadow: var(--glow);
 }
 
 ::selection { background: var(--fg); color: var(--bg); text-shadow: none; }
@@ -49,9 +74,9 @@ a:hover { background: var(--accent2); color: var(--bg); text-shadow: none; }
   background:
     repeating-linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0)    0px,
-      rgba(0, 0, 0, 0)    2px,
-      rgba(0, 0, 0, 0.22) 3px
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      var(--scanline)  3px
     );
 }
 
@@ -64,7 +89,7 @@ a:hover { background: var(--accent2); color: var(--bg); text-shadow: none; }
   background: radial-gradient(
     ellipse at center,
     rgba(0, 0, 0, 0) 55%,
-    rgba(0, 0, 0, 0.5) 100%
+    var(--vignette) 100%
   );
   animation: flicker 4s infinite;
 }
@@ -94,7 +119,7 @@ pre.banner {
   white-space: pre;
 }
 
-pre.banner span { text-shadow: 0 0 8px currentColor; }
+pre.banner span { text-shadow: var(--glow-banner); }
 
 .tagline {
   text-align: center;
@@ -173,12 +198,12 @@ hr {
 
 code {
   color: var(--warn);
-  background: rgba(255, 216, 63, 0.07);
+  background: var(--warn-bg);
   padding: 0 0.4ch;
 }
 
 pre.code {
-  background: #000;
+  background: var(--code-bg);
   border: 1px solid var(--fg-dark);
   border-left: 3px solid var(--fg);
   padding: 0.9rem 1.1rem;
@@ -223,7 +248,7 @@ pre.code code { background: none; color: inherit; padding: 0; }
   position: fixed;
   left: 0; right: 0; bottom: 0;
   height: 3rem;
-  background: #000;
+  background: var(--bar-bg);
   border-top: 1px solid var(--fg-dark);
   overflow: hidden;
   z-index: 50;
@@ -240,12 +265,12 @@ pre.code code { background: none; color: inherit; padding: 0; }
 
 /* ---- Sound toggle ------------------------------------------- */
 
-#sndtoggle {
+#sndtoggle, #themetoggle {
   position: fixed;
   right: 0.75rem;
   bottom: 3.5rem;
   z-index: 60;
-  background: #000;
+  background: var(--bar-bg);
   color: var(--fg-dim);
   border: 1px solid var(--fg-dark);
   font: inherit;
@@ -254,7 +279,9 @@ pre.code code { background: none; color: inherit; padding: 0; }
   cursor: pointer;
 }
 
-#sndtoggle:hover, #sndtoggle.on { color: var(--warn); border-color: var(--warn); }
+#themetoggle { bottom: 5.4rem; }
+
+#sndtoggle:hover, #sndtoggle.on, #themetoggle:hover { color: var(--warn); border-color: var(--warn); }
 
 /* ---- Footer ------------------------------------------------- */
 

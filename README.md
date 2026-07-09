@@ -54,6 +54,10 @@ rsync -av --delete ./ user@host:/var/www/d3v4.site/
 
 ## FX notes
 
+- Dark (phosphor) and light (paper printout) themes. Defaults to the OS
+  preference; the `[ ☼ / ☾ ]` button (bottom right) or the `t` key toggles,
+  and the choice sticks via localStorage. Colors live as CSS variables in
+  `assets/style.css` (`:root` = dark, `:root[data-theme="light"]` = light).
 - All animations respect `prefers-reduced-motion`.
 - Sound is off by default; the `[ ♪ ]` button (bottom right) starts a small
   WebAudio square-wave arpeggio — no audio files involved.
