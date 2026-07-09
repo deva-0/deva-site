@@ -26,10 +26,10 @@ assets/
 3. Add one `<a class="row">` line to the `filelist` in **both** `blog.html`
    (full archive) and `index.html` (latest posts — keep only the newest few).
 
-Row format:
+Row format (the `dots` span draws the dotted leader responsively):
 
 ```html
-<a class="row" href="posts/YYYY-MM-DD-slug.html"><span class="date">YYYY-MM-DD</span> │ slug.nfo ... <span class="tag">[TAG]</span></a>
+<a class="row" href="posts/YYYY-MM-DD-slug.html"><span class="date">YYYY-MM-DD</span> <span class="fname">slug.nfo</span><span class="dots"></span><span class="tag">[TAG]</span></a>
 ```
 
 ## Previewing locally

@@ -111,7 +111,7 @@ a:hover { background: var(--accent2); color: var(--bg); text-shadow: none; }
 
 pre.banner {
   line-height: 1.05;
-  font-size: clamp(7px, 2.1vw, 16px);
+  font-size: clamp(9px, 2.6vw, 16px);
   text-align: left;
   width: fit-content;
   margin: 1rem auto 0.25rem;
@@ -122,7 +122,6 @@ pre.banner {
 pre.banner span {
   display: inline-block; /* transforms don't apply to inline elements */
   text-shadow: var(--glow-banner);
-  will-change: transform;
 }
 
 .tagline {
@@ -223,11 +222,25 @@ pre.code code { background: none; color: inherit; padding: 0; }
 .filelist { margin: 1rem 0; }
 
 .filelist a.row {
-  display: block;
+  display: flex;
+  align-items: baseline;
+  gap: 1ch;
   color: var(--fg);
-  white-space: pre;
-  overflow-x: auto;
-  padding: 0.1rem 0.5ch;
+  white-space: nowrap;
+  padding: 0.15rem 0.5ch;
+}
+
+.filelist a.row .fname {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filelist a.row .dots {
+  flex: 1;
+  min-width: 2ch;
+  border-bottom: 1px dotted currentColor;
+  opacity: 0.55;
+  transform: translateY(-0.3em);
 }
 
 .filelist a.row:hover { background: var(--fg); color: var(--bg); }
@@ -280,3 +293,30 @@ footer .greetz { color: var(--fg-dim); }
 
 .blink { animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* ---- Small screens ------------------------------------------ */
+
+@media (max-width: 640px) {
+  body { padding-bottom: 7rem; } /* clear the fixed corner buttons */
+  .wrap { padding: 1rem 0.75rem 0; }
+
+  /* shrink NFO art just enough that 66 columns fit the viewport */
+  pre.nfo {
+    font-size: min(15px, calc((100vw - 1.5rem) / 40));
+    line-height: 1.35;
+  }
+
+  .tagline { letter-spacing: 0.22em; font-size: 11px; }
+  nav.mainmenu { gap: 0.25rem 1.1rem; }
+  footer { font-size: 11px; letter-spacing: 0.05em; }
+}
+
+/* ---- Touch devices: bigger tap targets ----------------------- */
+
+@media (pointer: coarse) {
+  #sndtoggle, #themetoggle {
+    font-size: 14px;
+    padding: 0.5rem 1.2ch;
+  }
+  #themetoggle { bottom: 3.6rem; }
+}
