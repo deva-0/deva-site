@@ -1,0 +1,19 @@
+baseURL = "https://deva-0.github.io/deva-site/"
+locale = "en"
+title = "d3v4 :: devops & sysops"
+
+# no tag/category pages (the [TAG] labels come straight from front matter)
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  handle = "d3v4"
+  email = "d3v4xf@gmail.com"
+  description = "d3v4 — devops / sysops war stories, notes and tooling."
+
+[markup.goldmark.renderer]
+  # the NFO boxes are raw HTML inside markdown content
+  unsafe = true
+
+[markup.highlight]
+  # plain monochrome code blocks — syntax colors would break the phosphor look
+  codeFences = false

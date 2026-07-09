@@ -1,66 +1,69 @@
 # d3v4.site
 
-Static blog in old-school keygen / NFO / 1337 style. Zero build step, zero
-dependencies, zero frameworks — plain HTML + CSS + one vanilla JS file.
+Static blog in old-school keygen / NFO / 1337 style, built with
+[Hugo](https://gohugo.io/). Posts are markdown; what ships is plain HTML +
+CSS + one vanilla JS file. No client-side frameworks.
 
 ## Structure
 
 ```
-index.html            home page
-blog.html             post archive (BBS-style file listing)
-about.html            about / contact
-posts/
-  _template.html      copy this to write a new post
-  2026-07-09-*.html   the posts themselves
-assets/
-  style.css           CRT / phosphor theme
-  site.js             keygen FX: wavy plasma banner,
-                      keyboard nav (1/2/3), chiptune bleeper
+hugo.toml               site config (params: handle, email, description)
+content/
+  _index.md             home page (the SYSTEM INFO box)
+  about.md              about page
+  blog/
+    _index.md           blog archive intro (DIR LISTING box)
+    hello-world.md      posts — one markdown file each
+layouts/
+  baseof.html           shared chrome: head, banner, tagline, nav, footer
+  home.html             homepage (latest transmissions list)
+  page.html             generic pages (about)
+  blog/section.html     blog archive (BBS-style file listing, generated)
+  blog/page.html        post layout (title, postmeta, content)
+  404.html              NFO-styled not-found page
+  partials/             banner art, tagline logic, file-list row
+archetypes/blog.md      template used by `hugo new`
+static/assets/          style.css + site.js, shipped as-is
+.github/workflows/      builds and deploys to GitHub Pages on push
 ```
 
 ## Writing a new post
 
-1. Copy `posts/_template.html` to `posts/YYYY-MM-DD-slug.html`.
-2. Replace `POST_TITLE`, `POST_DESCRIPTION`, `YYYY-MM-DD`, `TAGS`, and the
-   transmission number, then write the body in plain HTML.
-3. Add one `<a class="row">` line to the `filelist` in **both** `blog.html`
-   (full archive) and `index.html` (latest posts — keep only the newest few).
-
-Row format (the `dots` span draws the dotted leader responsively):
-
-```html
-<a class="row" href="posts/YYYY-MM-DD-slug.html"><span class="date">YYYY-MM-DD</span> <span class="fname">slug.nfo</span><span class="dots"></span><span class="tag">[TAG]</span></a>
 ```
+hugo new blog/my-post-slug.md
+```
+
+Edit the file in `content/blog/`, write markdown, set `tags` and
+`transmission` in the front matter, flip `draft: true` to `false` (or
+delete the line), commit, push. The blog archive, homepage list, and RSS
+feed update themselves. The `[TAG]` label in listings is the first tag,
+uppercased.
 
 ## Previewing locally
 
-Any static file server works, e.g.:
-
 ```
-python -m http.server 8000
+hugo server
 ```
 
-Opening the files directly in a browser also works — there are no
-cross-origin requests.
+Then open http://localhost:1313/. Drafts show with `hugo server -D`.
 
 ## Deploying
 
-It's just files. GitHub Pages, Netlify, Cloudflare Pages, an S3 bucket, or
-`rsync` to any box running nginx:
+Push to `main` — the GitHub Actions workflow (`.github/workflows/hugo.yml`)
+builds the site with Hugo and deploys it to GitHub Pages. No manual steps.
 
-```
-rsync -av --delete ./ user@host:/var/www/d3v4.site/
-```
+## Look & feel
 
-## FX notes
-
-- Dark (phosphor) and light (paper printout) themes. Defaults to the OS
-  preference; the `[ ☼ / ☾ ]` button (bottom right) or the `t` key toggles,
-  and the choice sticks via localStorage. Colors live as CSS variables in
-  `assets/style.css` (`:root` = dark, `:root[data-theme="light"]` = light).
+- Colors are CSS variables in `static/assets/style.css`: `:root` is the
+  dark phosphor theme, `:root[data-theme="light"]` the paper-printout one.
+  Defaults to the OS preference; the `[ ☼ / ☾ ]` button or `t` key toggles
+  and the choice sticks via localStorage.
 - The banner plasma-cycles its colors and each character bobs on a sine
-  wave, phase-shifted per column — tune amplitude/speed in the plasma
-  loop in `assets/site.js`.
+  wave — tune amplitude/speed in the plasma loop in `static/assets/site.js`.
+  Banner art per page lives in `layouts/partials/banner.html`.
 - All animations respect `prefers-reduced-motion`.
-- Sound is off by default; the `[ ♪ ]` button (bottom right) starts a small
-  WebAudio square-wave arpeggio — no audio files involved.
+- Sound is off by default; the `[ ♪ ]` button starts a WebAudio square-wave
+  arpeggio — no audio files involved.
+- NFO boxes are 66 chars wide with the `│` borders column-aligned — keep
+  that width when editing them.
+- RSS feeds are generated automatically at `/index.xml` and `/blog/index.xml`.

@@ -205,7 +205,8 @@ code {
   padding: 0 0.4ch;
 }
 
-pre.code {
+pre.code,
+article pre:not(.nfo):not(.banner) {
   background: var(--code-bg);
   border: 1px solid var(--fg-dark);
   border-left: 3px solid var(--fg);
@@ -215,7 +216,8 @@ pre.code {
   color: var(--fg);
 }
 
-pre.code code { background: none; color: inherit; padding: 0; }
+pre.code code,
+article pre:not(.nfo):not(.banner) code { background: none; color: inherit; padding: 0; }
 
 /* ---- Blog listing (BBS file-list style) --------------------- */
 

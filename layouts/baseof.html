@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}d3v4 :: {{ lower .Title }}{{ end }}</title>
+<meta name="description" content="{{ or .Description site.Params.description }}">
+<script>try{document.documentElement.dataset.theme=localStorage.theme||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){}</script>
+<link rel="stylesheet" href="{{ "/assets/style.css" | relURL }}">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'&gt;&lt;rect width='16' height='16' fill='%23030403'/&gt;&lt;text x='2' y='12' font-family='monospace' font-size='11' fill='%2333ff66'&gt;&amp;gt;_&lt;/text&gt;&lt;/svg&gt;">
+{{ with .OutputFormats.Get "rss" -}}
+<link rel="alternate" type="application/rss+xml" title="d3v4 :: rss" href="{{ .RelPermalink }}">
+{{- end }}
+</head>
+<body class="crt">
+<div class="wrap">
+
+{{ partial "banner.html" . }}
+{{ partial "tagline.html" . }}
+
+<nav class="mainmenu">
+  <a href="{{ "/" | relURL }}" data-key="1"{{ if .IsHome }} class="active"{{ end }}><span class="key">[1]</span> HOME</a>
+  <a href="{{ "/blog/" | relURL }}" data-key="2"{{ if eq .Section "blog" }} class="active"{{ end }}><span class="key">[2]</span> BLOG</a>
+  <a href="{{ "/about/" | relURL }}" data-key="3"{{ if eq .Params.navid "about" }} class="active"{{ end }}><span class="key">[3]</span> ABOUT</a>
+</nav>
+
+{{ block "main" . }}{{ end }}
+
+<footer>
+  <p>── d3v4 // no rights reserved, only permissions 0644 ──<span class="blink">█</span></p>
+</footer>
+
+</div>
+<script src="{{ "/assets/site.js" | relURL }}"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{{ define "main" }}
+{{ .Content }}
+
+<div class="filelist">
+{{ range .Pages.ByDate.Reverse }}
+  {{- partial "filerow.html" . -}}
+{{ end }}
+</div>
+
+<pre class="nfo">
+   {{ len .Pages }} file(s) listed · 0 bytes wasted on javascript frameworks
+</pre>
+{{ end }}

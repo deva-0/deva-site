@@ -1,0 +1,11 @@
+{{ define "main" }}
+<h1>:: {{ lower .Title }} ::</h1>
+<p class="postmeta">{{ .Date.Format "2006-01-02" }} <span class="sep">│</span> by {{ site.Params.handle }}{{ with .Params.tags }} <span class="sep">│</span> tags: {{ delimit . ", " }}{{ end }}</p>
+
+<article>
+{{ .Content }}
+</article>
+
+<hr>
+<p><a href="{{ "/blog/" | relURL }}">&lt;&lt; back to archive</a></p>
+{{ end }}

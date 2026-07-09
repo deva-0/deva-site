@@ -1,0 +1,13 @@
+{{ define "main" }}
+{{ .Content }}
+
+<h2>Latest Transmissions</h2>
+
+<div class="filelist">
+{{ range first 5 (where site.RegularPages "Section" "blog").ByDate.Reverse }}
+  {{- partial "filerow.html" . -}}
+{{ end }}
+</div>
+
+<p><a href="{{ "/blog/" | relURL }}">&gt;&gt; full archive_</a></p>
+{{ end }}

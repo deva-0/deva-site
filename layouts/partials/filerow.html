@@ -1,0 +1,1 @@
+<a class="row" href="{{ .RelPermalink }}"><span class="date">{{ .Date.Format "2006-01-02" }}</span> <span class="fname">{{ .File.ContentBaseName }}.nfo</span><span class="dots"></span><span class="tag">[{{ with .Params.tags }}{{ upper (index . 0) }}{{ else }}MISC{{ end }}]</span></a>

@@ -1,0 +1,8 @@
+{{- $t := .Params.tagline -}}
+{{- if and (not $t) (eq .Section "blog") .IsPage -}}
+  {{- $t = printf "· transmission %v ·" (.Params.transmission | default "log") -}}
+{{- end -}}
+{{- if not $t -}}
+  {{- $t = "· devops · sysops · uptime enjoyer ·" -}}
+{{- end -}}
+<p class="tagline">{{ $t }}</p>
