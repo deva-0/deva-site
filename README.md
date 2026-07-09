@@ -14,7 +14,7 @@ posts/
   2026-07-09-*.html   the posts themselves
 assets/
   style.css           CRT / phosphor theme
-  site.js             keygen FX: plasma banner, sine scroller,
+  site.js             keygen FX: wavy plasma banner,
                       keyboard nav (1/2/3), chiptune bleeper
 ```
 
@@ -58,8 +58,9 @@ rsync -av --delete ./ user@host:/var/www/d3v4.site/
   preference; the `[ ☼ / ☾ ]` button (bottom right) or the `t` key toggles,
   and the choice sticks via localStorage. Colors live as CSS variables in
   `assets/style.css` (`:root` = dark, `:root[data-theme="light"]` = light).
+- The banner plasma-cycles its colors and each character bobs on a sine
+  wave, phase-shifted per column — tune amplitude/speed in the plasma
+  loop in `assets/site.js`.
 - All animations respect `prefers-reduced-motion`.
 - Sound is off by default; the `[ ♪ ]` button (bottom right) starts a small
   WebAudio square-wave arpeggio — no audio files involved.
-- The bottom scroller text lives at the top of `assets/site.js`
-  (`SCROLL_TEXT`) — edit at will, greetz are customary.

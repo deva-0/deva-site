@@ -1,6 +1,6 @@
 /* ============================================================
-   d3v4.site — keygen FX: plasma banner, sine scroller,
-   keyboard nav, chiptune bleeper
+   d3v4.site — keygen FX: wavy plasma banner, keyboard nav,
+   chiptune bleeper
    ============================================================ */
 (function () {
   "use strict";
@@ -52,57 +52,13 @@
           var hue = 100 + v * 55; /* sweeps green -> cyan -> magenta-ish */
           var lum = isLight() ? 34 + v * 5 : 55 + v * 8;
           c.el.style.color = "hsl(" + hue + ", 100%, " + lum + "%)";
+          /* wave: each column bobs on a sine, phase-shifted by x */
+          var wave = Math.sin(c.x * 0.22 + t * 2.8) * 0.22;
+          c.el.style.transform = "translateY(" + wave.toFixed(3) + "em)";
         }
         requestAnimationFrame(plasma);
       })(t0);
     }
-  }
-
-  /* ---- Sine-wave scroller ------------------------------------ */
-
-  var SCROLL_TEXT =
-    "   +++ greetz to all sysadmins still awake at 03:00 +++ " +
-    "this site is 100% static html. no frameworks were harmed. " +
-    "+++ uptime is a lifestyle +++ cattle, not pets +++ " +
-    "have you tried turning it off and on again? +++   ";
-
-  var bar = document.createElement("div");
-  bar.id = "scroller";
-  document.body.appendChild(bar);
-
-  var glyphs = [];
-  SCROLL_TEXT.split("").forEach(function (ch) {
-    var s = document.createElement("span");
-    s.textContent = ch;
-    bar.appendChild(s);
-    glyphs.push(s);
-  });
-
-  var CHW = 10; /* px per char, rough monospace advance */
-  var totalW = glyphs.length * CHW;
-
-  if (reducedMotion) {
-    bar.style.textAlign = "center";
-    bar.style.lineHeight = "3rem";
-    glyphs.forEach(function (s) { s.style.position = "static"; });
-  } else {
-    var st0 = performance.now();
-    (function scroll(now) {
-      var t = (now - st0) / 1000;
-      var base = -((t * 120) % totalW);
-      var w = bar.clientWidth;
-      for (var i = 0; i < glyphs.length; i++) {
-        var x = base + i * CHW;
-        if (x < -CHW) x += totalW;
-        if (x > w + CHW) { glyphs[i].style.visibility = "hidden"; continue; }
-        glyphs[i].style.visibility = "visible";
-        var y = Math.sin(x * 0.035 + t * 3) * 9;
-        var hue = 100 + Math.sin(x * 0.02 + t * 2) * 60;
-        glyphs[i].style.transform = "translate(" + x + "px," + y + "px)";
-        glyphs[i].style.color = "hsl(" + hue + ",100%," + (isLight() ? 34 : 60) + "%)";
-      }
-      requestAnimationFrame(scroll);
-    })(st0);
   }
 
   /* ---- Theme toggle (dark phosphor <-> paper terminal) --------- */

@@ -48,7 +48,7 @@ body {
   font-size: 15px;
   line-height: 1.45;
   min-height: 100vh;
-  padding-bottom: 4rem; /* room for the scroller bar */
+  padding-bottom: 2rem;
   text-shadow: var(--glow);
 }
 
@@ -119,7 +119,11 @@ pre.banner {
   white-space: pre;
 }
 
-pre.banner span { text-shadow: var(--glow-banner); }
+pre.banner span {
+  display: inline-block; /* transforms don't apply to inline elements */
+  text-shadow: var(--glow-banner);
+  will-change: transform;
+}
 
 .tagline {
   text-align: center;
@@ -242,33 +246,12 @@ pre.code code { background: none; color: inherit; padding: 0; }
 
 .postmeta .sep { color: var(--fg-dark); }
 
-/* ---- Bottom scroller bar ------------------------------------ */
-
-#scroller {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  height: 3rem;
-  background: var(--bar-bg);
-  border-top: 1px solid var(--fg-dark);
-  overflow: hidden;
-  z-index: 50;
-  user-select: none;
-}
-
-#scroller span {
-  position: absolute;
-  bottom: 0.85rem;
-  will-change: transform;
-  font-weight: bold;
-  white-space: pre;
-}
-
-/* ---- Sound toggle ------------------------------------------- */
+/* ---- Sound / theme toggles ----------------------------------- */
 
 #sndtoggle, #themetoggle {
   position: fixed;
   right: 0.75rem;
-  bottom: 3.5rem;
+  bottom: 0.75rem;
   z-index: 60;
   background: var(--bar-bg);
   color: var(--fg-dim);
@@ -279,7 +262,7 @@ pre.code code { background: none; color: inherit; padding: 0; }
   cursor: pointer;
 }
 
-#themetoggle { bottom: 5.4rem; }
+#themetoggle { bottom: 2.65rem; }
 
 #sndtoggle:hover, #sndtoggle.on, #themetoggle:hover { color: var(--warn); border-color: var(--warn); }
 
