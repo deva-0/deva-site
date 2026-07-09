@@ -1,0 +1,272 @@
+/* ============================================================
+   d3v4.site — keygen/NFO aesthetic
+   ============================================================ */
+
+:root {
+  --bg: #030403;
+  --fg: #33ff66;
+  --fg-dim: #1d9940;
+  --fg-dark: #0e4d20;
+  --accent: #ff3fd8;
+  --accent2: #3fd8ff;
+  --warn: #ffd83f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { background: var(--bg); }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Cascadia Mono", "Consolas", "IBM Plex Mono", "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.45;
+  min-height: 100vh;
+  padding-bottom: 4rem; /* room for the scroller bar */
+  text-shadow: 0 0 6px rgba(51, 255, 102, 0.35);
+}
+
+::selection { background: var(--fg); color: var(--bg); text-shadow: none; }
+
+a { color: var(--accent2); text-decoration: none; }
+a:hover { background: var(--accent2); color: var(--bg); text-shadow: none; }
+
+.wrap {
+  max-width: 86ch;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* ---- CRT overlay ------------------------------------------ */
+
+.crt::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0)    0px,
+      rgba(0, 0, 0, 0)    2px,
+      rgba(0, 0, 0, 0.22) 3px
+    );
+}
+
+.crt::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 101;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 55%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92%      { opacity: 1; }
+  93%      { opacity: 0.82; }
+  94%      { opacity: 1; }
+  97%      { opacity: 0.92; }
+  98%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt::after { animation: none; }
+}
+
+/* ---- ASCII banner ------------------------------------------ */
+
+pre.banner {
+  line-height: 1.05;
+  font-size: clamp(7px, 2.1vw, 16px);
+  text-align: left;
+  width: fit-content;
+  margin: 1rem auto 0.25rem;
+  user-select: none;
+  white-space: pre;
+}
+
+pre.banner span { text-shadow: 0 0 8px currentColor; }
+
+.tagline {
+  text-align: center;
+  color: var(--fg-dim);
+  letter-spacing: 0.35em;
+  font-size: 12px;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+/* ---- Nav --------------------------------------------------- */
+
+nav.mainmenu {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+  margin: 0 0 2rem;
+  font-size: 14px;
+}
+
+nav.mainmenu a { color: var(--fg); }
+nav.mainmenu a:hover { background: var(--fg); color: var(--bg); }
+nav.mainmenu a .key { color: var(--warn); }
+nav.mainmenu a:hover .key { color: var(--bg); }
+nav.mainmenu a.active { color: var(--accent); }
+
+/* ---- NFO box ----------------------------------------------- */
+
+pre.nfo {
+  white-space: pre;
+  overflow-x: auto;
+  color: var(--fg-dim);
+  line-height: 1.25;
+  margin: 1.5rem 0;
+}
+
+pre.nfo .hi { color: var(--fg); }
+pre.nfo .ac { color: var(--accent); }
+
+.box {
+  border: 1px solid var(--fg-dark);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.box-title {
+  color: var(--accent);
+  margin: -1.72rem 0 0.75rem;
+  background: var(--bg);
+  display: inline-block;
+  padding: 0 0.5ch;
+  letter-spacing: 0.15em;
+}
+
+/* ---- Headings / text --------------------------------------- */
+
+h1, h2, h3 { font-size: 1em; text-transform: uppercase; letter-spacing: 0.2em; }
+h2 { color: var(--accent); margin: 2rem 0 0.75rem; }
+h2::before { content: "── "; color: var(--fg-dark); }
+h2::after  { content: " ──"; color: var(--fg-dark); }
+h3 { color: var(--warn); margin: 1.5rem 0 0.5rem; }
+h3::before { content: ":: "; color: var(--fg-dark); }
+
+p { margin: 0.75rem 0; }
+ul, ol { margin: 0.75rem 0 0.75rem 2.5ch; }
+li { margin: 0.2rem 0; }
+
+hr {
+  border: none;
+  border-top: 1px dashed var(--fg-dark);
+  margin: 2rem 0;
+}
+
+/* ---- Code -------------------------------------------------- */
+
+code {
+  color: var(--warn);
+  background: rgba(255, 216, 63, 0.07);
+  padding: 0 0.4ch;
+}
+
+pre.code {
+  background: #000;
+  border: 1px solid var(--fg-dark);
+  border-left: 3px solid var(--fg);
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  color: var(--fg);
+}
+
+pre.code code { background: none; color: inherit; padding: 0; }
+
+/* ---- Blog listing (BBS file-list style) --------------------- */
+
+.filelist { margin: 1rem 0; }
+
+.filelist a.row {
+  display: block;
+  color: var(--fg);
+  white-space: pre;
+  overflow-x: auto;
+  padding: 0.1rem 0.5ch;
+}
+
+.filelist a.row:hover { background: var(--fg); color: var(--bg); }
+.filelist a.row .date { color: var(--fg-dim); }
+.filelist a.row:hover .date { color: var(--bg); }
+.filelist a.row .tag { color: var(--accent); }
+.filelist a.row:hover .tag { color: var(--bg); }
+
+/* ---- Post meta --------------------------------------------- */
+
+.postmeta {
+  color: var(--fg-dim);
+  font-size: 13px;
+  margin-bottom: 1.5rem;
+}
+
+.postmeta .sep { color: var(--fg-dark); }
+
+/* ---- Bottom scroller bar ------------------------------------ */
+
+#scroller {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 3rem;
+  background: #000;
+  border-top: 1px solid var(--fg-dark);
+  overflow: hidden;
+  z-index: 50;
+  user-select: none;
+}
+
+#scroller span {
+  position: absolute;
+  bottom: 0.85rem;
+  will-change: transform;
+  font-weight: bold;
+  white-space: pre;
+}
+
+/* ---- Sound toggle ------------------------------------------- */
+
+#sndtoggle {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 3.5rem;
+  z-index: 60;
+  background: #000;
+  color: var(--fg-dim);
+  border: 1px solid var(--fg-dark);
+  font: inherit;
+  font-size: 12px;
+  padding: 0.2rem 0.8ch;
+  cursor: pointer;
+}
+
+#sndtoggle:hover, #sndtoggle.on { color: var(--warn); border-color: var(--warn); }
+
+/* ---- Footer ------------------------------------------------- */
+
+footer {
+  margin-top: 3rem;
+  color: var(--fg-dark);
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+}
+
+footer .greetz { color: var(--fg-dim); }
+
+.blink { animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
