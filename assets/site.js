@@ -8,6 +8,15 @@
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var root = document.documentElement;
 
+  /* safety net: pages cached from before the head snippet existed
+     load without data-theme — apply the saved choice here too */
+  try {
+    var savedTheme = localStorage.getItem("theme");
+    if (savedTheme && root.dataset.theme !== savedTheme) {
+      root.dataset.theme = savedTheme;
+    }
+  } catch (e) { /* private mode */ }
+
   function isLight() {
     return root.dataset.theme === "light";
   }
